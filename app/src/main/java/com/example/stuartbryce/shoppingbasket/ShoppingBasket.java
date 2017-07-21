@@ -9,11 +9,17 @@ import java.util.ArrayList;
 class ShoppingBasket {
 
     private ArrayList<Item> contents;
+    private boolean hasLoyaltyCard;
 
-    public ShoppingBasket() {
-        contents = new ArrayList<Item>();
+    public ShoppingBasket(boolean hasLoyaltyCard) {
+        this.contents = new ArrayList<Item>();
+        this.hasLoyaltyCard = hasLoyaltyCard;
     }
 
+    public ShoppingBasket(ArrayList<Item> contents) {
+        this.contents = contents;
+        this.hasLoyaltyCard = false;
+    }
 
     public void add(Item item) {
         contents.add(item);
@@ -37,5 +43,9 @@ class ShoppingBasket {
 
     public void clear() {
         this.contents.clear();
+    }
+
+    public boolean hasLoyaltyCard() {
+        return hasLoyaltyCard;
     }
 }

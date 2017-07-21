@@ -1,7 +1,9 @@
 package com.example.stuartbryce.shoppingbasket;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by stuartbryce on 2017-07-21.
@@ -10,12 +12,20 @@ import java.util.HashMap;
 public class CashRegister {
 
     public static int subtotal(ShoppingBasket basket) {
-        ArrayList<Item> contents = basket.getContents();
-        int total = 0;
-        for (Item item : contents) {
-            total += item.getPrice();
+        HashMap<Item, Integer> hashedItems = getHashMapOfItems(basket);
+        Set<Item> itemsList = hashedItems.keySet();
+
+        int subtotal = 0;
+        for (Item item : itemsList){
+            int numOfItem = hashedItems.get(item);
+            int discount = 0;
+            subtotal += numOfItem * item.getPrice();
+            if (item.buyOneOffer() && numOfItem>1){
+                discount = ((numOfItem - (numOfItem % 2))/2)* item.getPrice();
+            }
+            subtotal -= discount;
         }
-        return total;
+       return  subtotal;
     }
 
 //    public static int total(ShoppingBasket basket) {
@@ -36,4 +46,10 @@ public class CashRegister {
         return itemDuplicates;
     }
 
+    public static float applyDiscount(ShoppingBasket basket, int percentageOff) {
+        int subtotal = subtotal(basket) * 100;
+        subtotal *= (100 - percentageOff);
+        float newTotal = (float) subtotal/10000;
+        return newTotal;
+    }
 }

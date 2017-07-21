@@ -15,11 +15,13 @@ public class ShoppingBasketTest {
 
     ShoppingBasket basket;
     Item item;
+    Item item2;
 
     @Before
     public void setup(){
-        basket = new ShoppingBasket();
+        basket = new ShoppingBasket(true);
         item = new Item(10, "sausage", true);
+        item2 = new Item(5, "bun", true);
     }
 
     @Test
@@ -57,7 +59,7 @@ public class ShoppingBasketTest {
     public void testCashRegisterTotals() throws Exception {
         basket.add(item);
         basket.add(item);
-        assertEquals(20, CashRegister.subtotal(basket));
+        assertEquals(10, CashRegister.subtotal(basket));
     }
 
     @Test
@@ -75,14 +77,50 @@ public class ShoppingBasketTest {
 
     @Test
     public void testSubTotalMethodAppliesOneFreeDiscount() throws Exception {
+        basket.add(item);
+        basket.add(item);
+        assertEquals(10, CashRegister.subtotal(basket));
+    }
 
+    @Test
+    public void testSubTotalHandlesMultipleDiscountItems() throws Exception {
+        basket.add(item);
+        basket.add(item);
+        basket.add(item);
+        basket.add(item2);
+        basket.add(item2);
+        assertEquals(25, CashRegister.subtotal(basket));
+    }
+
+    @Test
+    public void testTwoPercentDiscount() throws Exception {
+        basket.add(item);
+        basket.add(item);
+        basket.add(item);
+        basket.add(item2);
+        basket.add(item2);
+        assertEquals(24.50, CashRegister.applyDiscount(basket, 2), 0.02);
+    }
+
+    @Test
+    public void testFivePercentDiscount() throws Exception {
+        basket.add(item);
+        basket.add(item);
+        basket.add(item);
+        basket.add(item2);
+        basket.add(item2);
+        assertEquals(23.75, CashRegister.applyDiscount(basket, 5), 0.02);
+    }
+
+    @Test
+    public void testBasketHasLoyaltyCard() throws Exception {
+        assertEquals(true, basket.hasLoyaltyCard());
 
     }
 
-    //    @Test
-//    public void testBuyOneGetOneFreeDiscount() throws Exception {
-//        basket.add(item);
-//        basket.add(item);
-//        assertEquals(20, CashRegister.total(basket));
-//    }
+    @Test
+    public void testTotalGivesAllDiscountsOwed() throws Exception {
+
+
+    }
 }
