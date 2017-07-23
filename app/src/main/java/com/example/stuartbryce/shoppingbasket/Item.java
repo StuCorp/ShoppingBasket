@@ -5,25 +5,29 @@ package com.example.stuartbryce.shoppingbasket;
  */
 
 class Item {
-    private int price;
+    private float price;
     private String name;
     private boolean offer;
 
 
-    public Item(int price, String name) {
+    public Item(float price, String name) {
         this.price = price;
         this.name = name;
         this.offer = false;
     }
 
-    public Item(int price, String name, boolean offer) {
+    public Item(float price, String name, boolean offer) {
         this.price = price;
         this.name = name;
         this.offer = offer;
     }
 
     public int getPrice() {
-        return price;
+        return CurrencyConverter.convertToInt(price);
+    }
+
+    public float getFloatPrice() {
+        return this.price;
     }
 
     public String getName() {
