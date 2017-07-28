@@ -25,7 +25,6 @@ public class CashRegister {
         return subtotal;
     }
 
-
     public static int applyDiscount(int amount, float percentageOff) {
         amount *= (100 - percentageOff) / 100;
         return amount;
@@ -42,5 +41,4 @@ public class CashRegister {
         float total = CurrencyConverter.convertToFloat(subtotal);
         return total;
     }
-
 }
